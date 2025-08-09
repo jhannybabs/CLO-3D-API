@@ -1,15 +1,13 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
-import { randomUUID } from "crypto";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+import { randomInt } from 'crypto';
 
 export type DesignDocument = HydratedDocument<Designs>;
-@Schema({ timestamps: true, collection: "designs" })
-export class Designs {
-  @Prop({ default: randomUUID })
-  designId: string;
 
-  @Prop({ required: true })
-  designerId: string;
+@Schema({ timestamps: true, collection: 'designs' })
+export class Designs {
+  @Prop({ default: randomInt(100000, 999999), unique: true })
+  designId: number;
 
   @Prop({ required: true })
   designName: string;
@@ -17,7 +15,7 @@ export class Designs {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, enum: ['top', 'shorts'] })
   category: string;
 
   @Prop({ required: true })
@@ -29,7 +27,7 @@ export class Designs {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ default: "draft", enum: ["draft", "published", "archived"] })
+  @Prop({ default: 'draft', enum: ['draft', 'published', 'archived'] })
   status: string;
 }
 

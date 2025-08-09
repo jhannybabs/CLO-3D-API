@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { randomUUID } from 'crypto';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 
 export type UserDocument = HydratedDocument<Users>;
 
 @Schema({ timestamps: true, collection: 'users' })
 export class Users {
-  @Prop({ default: randomUUID })
+  @Prop({ default: randomUUID, unique: true })
   userId: string;
 
   @Prop({ required: true })
@@ -32,9 +32,9 @@ export class Users {
 export const UserSchema = SchemaFactory.createForClass(Users);
 
 // Hash password before saving
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
+// UserSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) return next();
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
