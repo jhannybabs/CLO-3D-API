@@ -1,11 +1,22 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { AnalyticsModule } from './analytics/analytics.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './modules/users/users.module';
+import { DesignsModule } from './modules/designs/designs.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { AuditModule } from './audit/audit.module';
 
 @Module({
-  imports: [UsersModule, AnalyticsModule],
+  imports: [
+    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/clo-3d'),
+    UsersModule,
+    DesignsModule,
+    OrdersModule,
+    PaymentsModule,
+    AuditModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
