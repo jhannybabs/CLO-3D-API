@@ -20,8 +20,17 @@ export class Designs {
   @Prop({ required: true })
   category: string;
 
-  @Prop({ default: false })
-  isPublic: boolean;
+  @Prop({ required: true })
+  model3DFileUrl: string;
+
+  @Prop({ required: true })
+  previewImage: string;
+
+  @Prop({ required: true })
+  price: number;
+
+  @Prop({ default: "draft", enum: ["draft", "published", "archived"] })
+  status: string;
 }
 
 export const DesignSchema = SchemaFactory.createForClass(Designs);
