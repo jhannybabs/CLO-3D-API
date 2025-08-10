@@ -15,12 +15,6 @@ export class Designs {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true, enum: ['top', 'shorts'] })
-  category: string;
-
-  @Prop({ required: true })
-  model3DFileUrl: string;
-
   @Prop({ required: true })
   previewImage: string;
 

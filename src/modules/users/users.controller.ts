@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
 } from '@nestjs/common';
@@ -17,26 +17,26 @@ export class UsersController {
 
   @Post('create-user')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService.createUser(createUserDto);
   }
 
   @Get('get-all-users')
   findAll() {
-    return this.usersService.findAll();
+    return this.usersService.findAllUsers();
   }
 
-  @Get('get-users/:id')
+  @Get('get-user/:id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.usersService.findOneUser(id);
   }
 
-  @Patch(':id')
+  @Put('update-user/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+    return this.usersService.updateUser(id, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete('delete-user:id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this.usersService.removeUser(id);
   }
 }
