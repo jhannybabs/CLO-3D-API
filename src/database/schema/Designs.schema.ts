@@ -6,7 +6,7 @@ export type DesignDocument = HydratedDocument<Designs>;
 
 @Schema({ timestamps: true, collection: 'designs' })
 export class Designs {
-  @Prop({ default: randomInt(100000, 999999), unique: true })
+  @Prop({ default: () => randomInt(100000, 999999), unique: true })
   designId: number;
 
   @Prop({ required: true })

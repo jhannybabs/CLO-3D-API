@@ -9,7 +9,6 @@ export class Orders {
   @Prop({ default: () => randomInt(100000, 999999), unique: true })
   orderId: number;
 
-  // Link to Users collection
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
   userId: mongoose.Types.ObjectId;
 
@@ -39,8 +38,8 @@ export class Orders {
   })
   status: string;
 
-  @Prop({ required: true })
-  paymentMethod: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Payments', required: true })
+  paymentId: mongoose.Types.ObjectId;
 }
 
 export const OrdersSchema = SchemaFactory.createForClass(Orders);
