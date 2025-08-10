@@ -14,9 +14,6 @@ export class Garments {
   @Prop({ required: true })
   model3DFileUrl: string;
 
-  @Prop({ required: true })
-  previewImage: string;
-
   @Prop({ type: [String], default: [] })
   designAreas: string[];
 }
