@@ -12,16 +12,16 @@ export class Audit {
   adminId: mongoose.Types.ObjectId; // must be a user with role = admin
 
   @Prop({ type: String, required: true })
-  action: string; // e.g., "updated design", "verified payment"
+  action: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  targetId: mongoose.Types.ObjectId; // could reference Design, Order, Payment, etc.
+  targetId: mongoose.Types.ObjectId;
 
   @Prop({ type: Date, default: Date.now })
   timestamp: Date;
 
   @Prop({ type: String })
-  details?: string; // extra info about the action
+  details?: string;
 }
 
 export const AuditSchema = SchemaFactory.createForClass(Audit);
