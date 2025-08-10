@@ -1,45 +1,49 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { randomInt } from 'crypto';
+import { HydratedDocument, Types } from 'mongoose';
 
-export type OrdersDocument = HydratedDocument<Orders>;
+export type OrderDocument = HydratedDocument<Orders>;
+
+class OrderItem {
+  @Prop({ type: Types.ObjectId, ref: 'Products', required: true })
+  productId: Types.ObjectId; 
+
+  @Prop({ required: true })
+  quantity: number;
+
+  @Prop({ required: true })
+  price: number; 
+}
 
 @Schema({ timestamps: true, collection: 'orders' })
 export class Orders {
-  @Prop({ default: () => randomInt(100000, 999999), unique: true })
-  orderId: number;
+  @Prop({ type: Types.ObjectId, ref: 'Users', required: true })
+  userId: Types.ObjectId; 
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
-  userId: mongoose.Types.ObjectId;
-
-  @Prop({
-    type: [
-      {
-        designId: { type: Number, required: true },
-        quantity: { type: Number, required: true },
-        price: { type: Number, required: true },
-      },
-    ],
-    required: true,
-  })
-  items: {
-    designId: number;
-    quantity: number;
-    price: number;
-  }[];
-
-  @Prop({ required: true })
-  totalAmount: number;
+  @Prop({ type: [OrderItem], required: true })
+  items: OrderItem[];
 
   @Prop({
     required: true,
-    enum: ['pending', 'completed', 'cancelled'],
+    enum: ['pending', 'paid', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
   })
   status: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Payments', required: true })
-  paymentId: mongoose.Types.ObjectId;
+  @Prop()
+  totalAmount: number;
+
+  @Prop()
+  shippingAddress: string;
+
+  @Prop()
+  paymentMethod: string;
 }
 
-export const OrdersSchema = SchemaFactory.createForClass(Orders);
+export const OrderSchema = SchemaFactory.createForClass(Orders);
+
+OrderSchema.pre('save', function (next) {
+  if (this.isNew || this.isModified('items')) {
+    this.totalAmount = this.items.reduce((total, item) => total + item.quantity * item.price, 0);
+  }
+  next();
+});
