@@ -9,7 +9,7 @@ export class Audit {
   logId: mongoose.Types.ObjectId;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
-  adminId: mongoose.Types.ObjectId; // must be a user with role = admin
+  adminId: mongoose.Types.ObjectId;
 
   @Prop({ type: String, required: true })
   action: string;
