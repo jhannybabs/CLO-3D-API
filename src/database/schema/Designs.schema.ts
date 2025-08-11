@@ -16,13 +16,7 @@ export class Designs {
   description: string;
 
   @Prop({ required: true })
-  previewImage: string;
-
-  @Prop({ required: true })
-  price: number;
-
-  @Prop({ default: 'draft', enum: ['draft', 'published', 'archived'] })
-  status: string;
+  imageUrl: string;
 }
 
 export const DesignSchema = SchemaFactory.createForClass(Designs);

@@ -9,12 +9,12 @@ export class DesignsController {
 
   @Post()
   create(@Body() createDesignDto: CreateDesignDto) {
-    return this.designsService.create(createDesignDto);
+    return this.designsService.createDesign(createDesignDto);
   }
 
   @Get()
   findAll() {
-    return this.designsService.findAll();
+    return this.designsService.findAllDesigns();
   }
 
   @Get(':id')

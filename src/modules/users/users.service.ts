@@ -14,8 +14,8 @@ export class UsersService {
 
   async createUser(createUserDto: CreateUserDto) {
     try {
-      const response = await this.userModel.create(createUserDto);
-      if (!response) {
+      let response = await this.userModel.create(createUserDto);
+      if (response == null) {
         return RESPONSE(HttpStatus.BAD_REQUEST, {}, 'User not created!');
       }
       return RESPONSE(HttpStatus.CREATED, {}, 'User created successfully!');
@@ -28,7 +28,10 @@ export class UsersService {
 
   async findAllUsers() {
     try {
-      const users = await this.userModel.find().exec();
+      let users = await this.userModel.find();
+      if (users.length === 0) {
+        return RESPONSE(HttpStatus.NOT_FOUND, {}, 'No users found!');
+      }
       return RESPONSE(HttpStatus.OK, users, 'Users fetched successfully!');
     } catch (error: any) {
       return RESPONSE(
@@ -41,7 +44,7 @@ export class UsersService {
 
   async findOneUser(id: string) {
     try {
-      const user = await this.userModel.findById(id).exec();
+      let user = await this.userModel.findById(id);
       if (!user) {
         return RESPONSE(HttpStatus.NOT_FOUND, {}, 'User not found!');
       }
@@ -57,7 +60,7 @@ export class UsersService {
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     try {
-      const updatedUser = await this.userModel
+      let updatedUser = await this.userModel
         .findByIdAndUpdate(id, updateUserDto, { new: true })
         .exec();
       if (!updatedUser) {
@@ -75,7 +78,7 @@ export class UsersService {
 
   async removeUser(id: string) {
     try {
-      const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+      let deletedUser = await this.userModel.findByIdAndDelete(id).exec();
       if (!deletedUser) {
         return RESPONSE(HttpStatus.NOT_FOUND, {}, 'User not found!');
       }
