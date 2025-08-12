@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { DesignsService } from './designs.service';
 import { CreateDesignDto } from './dto/create-design.dto';
 import { UpdateDesignDto } from './dto/update-design.dto';
@@ -7,28 +7,28 @@ import { UpdateDesignDto } from './dto/update-design.dto';
 export class DesignsController {
   constructor(private readonly designsService: DesignsService) {}
 
-  @Post()
+  @Post("create-design")
   create(@Body() createDesignDto: CreateDesignDto) {
     return this.designsService.createDesign(createDesignDto);
   }
 
-  @Get()
+  @Get("get-all-designs")
   findAll() {
     return this.designsService.findAllDesigns();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.designsService.findOne(+id);
+  @Get('get-design/:id')
+  findOne(@Param('id') id: number) {
+    return this.designsService.findOneDesign(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDesignDto: UpdateDesignDto) {
-    return this.designsService.update(+id, updateDesignDto);
+  @Put('update-design/:id')
+  update(@Param('id') id: number, @Body() updateDesignDto: UpdateDesignDto) {
+    return this.designsService.updateDesign(id, updateDesignDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.designsService.remove(+id);
+  @Delete('delete-design/:id')
+  remove(@Param('id') id: number) {
+    return this.designsService.removeDesign(id);
   }
 }

@@ -13,9 +13,6 @@ export class Designs {
   designName: string;
 
   @Prop({ required: true })
-  description: string;
-
-  @Prop({ required: true })
   imageUrl: string;
 }
 
